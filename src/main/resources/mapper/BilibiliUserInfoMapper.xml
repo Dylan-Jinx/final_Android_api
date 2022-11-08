@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finalproj.devapp.api.mapper.BilibiliUserInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.finalproj.devapp.api.domain.model.BilibiliUserInfo">
+        <id column="id" property="id" />
+        <result column="mid" property="mid" />
+        <result column="name" property="name" />
+        <result column="sex" property="sex" />
+        <result column="rank" property="rank" />
+        <result column="face" property="face" />
+        <result column="regtime" property="regtime" />
+        <result column="spacesta" property="spacesta" />
+        <result column="birthday" property="birthday" />
+        <result column="sign" property="sign" />
+        <result column="level" property="level" />
+        <result column="OfficialVerifyType" property="officialVerifyType" />
+        <result column="OfficialVerifyDesc" property="officialVerifyDesc" />
+        <result column="vipType" property="vipType" />
+        <result column="vipStatus" property="vipStatus" />
+        <result column="toutu" property="toutu" />
+        <result column="toutuId" property="toutuId" />
+        <result column="coins" property="coins" />
+        <result column="following" property="following" />
+        <result column="fans" property="fans" />
+        <result column="archiveview" property="archiveview" />
+        <result column="article" property="article" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, mid, `name`, sex, `rank`, face, regtime, spacesta, birthday, sign, `level`, OfficialVerifyType, OfficialVerifyDesc, vipType, vipStatus, toutu, toutuId, coins, `following`, fans, archiveview, article
+    </sql>
+
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finalproj.devapp.api.mapper.VideoBarrageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.finalproj.devapp.api.domain.model.VideoBarrage">
+        <id column="id" property="id" />
+        <result column="barrage_id" property="barrageId" />
+        <result column="content" property="content" />
+        <result column="font_color" property="fontColor" />
+        <result column="font_size" property="fontSize" />
+        <result column="font_weight" property="fontWeight" />
+        <result column="v_id" property="vId" />
+        <result column="video_appear_time" property="videoAppearTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, barrage_id, content, font_color, font_size, font_weight, v_id, video_appear_time
+    </sql>
+
+</mapper>

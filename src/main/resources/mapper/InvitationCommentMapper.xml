@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finalproj.devapp.api.mapper.InvitationCommentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.finalproj.devapp.api.domain.model.InvitationComment">
+        <id column="id" property="id" />
+        <result column="tc_id" property="tcId" />
+        <result column="content" property="content" />
+        <result column="tc_pic" property="tcPic" />
+        <result column="comment_time" property="commentTime" />
+        <result column="mid" property="mid" />
+        <result column="like" property="like" />
+        <result column="unlike" property="unlike" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tc_id, content, tc_pic, comment_time, mid, `like`, unlike
+    </sql>
+
+</mapper>
