@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finalproj.devapp.api.mapper.BilibiliVideoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.finalproj.devapp.api.domain.model.BilibiliVideo">
+        <id column="id" property="id" />
+        <result column="bvid" property="bvid" />
+        <result column="aid" property="aid" />
+        <result column="tname" property="tname" />
+        <result column="pic" property="pic" />
+        <result column="title" property="title" />
+        <result column="ctime" property="ctime" />
+        <result column="desc" property="desc" />
+        <result column="danmaku" property="danmaku" />
+        <result column="view" property="view" />
+        <result column="favorite" property="favorite" />
+        <result column="coin" property="coin" />
+        <result column="share" property="share" />
+        <result column="like" property="like" />
+        <result column="video_url" property="videoUrl" />
+        <result column="owner_name" property="ownerName" />
+        <result column="owner_face" property="ownerFace" />
+        <result column="tag" property="tag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, bvid, aid, tname, pic, title, ctime, `desc`, danmaku, `view`, favorite, coin, `share`, `like`, video_url, owner_name, owner_face, tag
+    </sql>
+
+</mapper>
