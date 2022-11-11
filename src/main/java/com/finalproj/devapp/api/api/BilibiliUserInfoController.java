@@ -1,11 +1,14 @@
 package com.finalproj.devapp.api.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.finalproj.devapp.api.utils.MinioUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import com.finalproj.devapp.api.common.ApiResponse;
@@ -56,18 +59,30 @@ public class BilibiliUserInfoController {
 
     @WebLog(description = "用mid查找")
     @GetMapping("findInfoByMid")
-    public ApiResponse findInfoByMid(Integer mid){
+    public ApiResponse findInfoByMid(Integer mid) throws Exception {
         QueryWrapper<BilibiliUserInfo> bilibiliUserInfoQueryWrapper = new QueryWrapper<>();
         bilibiliUserInfoQueryWrapper.eq("mid", mid);
         BilibiliUserInfo info = bilibiliUserInfoService.getOne(bilibiliUserInfoQueryWrapper);
+        String res_url = info.getFace();
+        res_url = MinioUtils.getResUrl("android", res_url);
+        info.setFace(res_url);
         return ApiResponse.ok(info);
     }
 
     @WebLog(description = "分页")
     @GetMapping("/page")
     public ApiResponse findPage(@RequestParam Integer pageNum,
-    @RequestParam Integer pageSize) {
-        return ApiResponse.ok(bilibiliUserInfoService.page(new Page<>(pageNum, pageSize)));
+    @RequestParam Integer pageSize) throws Exception {
+        Page<BilibiliUserInfo> datas = bilibiliUserInfoService.page(new Page<>(pageNum, pageSize));
+        List<BilibiliUserInfo> newDatas = new ArrayList<>();
+        for (BilibiliUserInfo record : datas.getRecords()) {
+            String res_url = record.getFace();
+            res_url = MinioUtils.getResUrl("android", res_url);
+            record.setFace(res_url);
+            newDatas.add(record);
+        }
+        datas.setRecords(newDatas);
+        return ApiResponse.ok(datas);
     }
 }
 
