@@ -1,5 +1,7 @@
 package com.finalproj.devapp.api.api;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.finalproj.devapp.api.utils.MinioUtils;
 import io.swagger.models.auth.In;
 import org.slf4j.Logger;
@@ -8,6 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -71,7 +75,6 @@ public class BilibiliVideoController {
         List<BilibiliVideo> datas = bilibiliVideoService.list();
 
         List<BilibiliVideo> tempData = new ArrayList<>();
-        Page<BilibiliVideo> resultDatas = new Page<>(pageNum, pageSize);
 
         for (BilibiliVideo record : createRandoms(datas, 6)) {
 
@@ -85,8 +88,53 @@ public class BilibiliVideoController {
 
             tempData.add(record);
         }
+        Page<BilibiliVideo> resultDatas = new Page<>(pageNum, tempData.size());
         resultDatas.setRecords(tempData);
         return ApiResponse.ok(resultDatas);
+    }
+
+    @WebLog(description = "视频名称模糊查找")
+    @GetMapping("findInfoByLikeName")
+    public ApiResponse findInfoByLikeName(String findInfoByLikeName){
+        QueryWrapper<BilibiliVideo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("title", findInfoByLikeName);
+        List<BilibiliVideo> datas = bilibiliVideoService.list(queryWrapper);
+        return ApiResponse.ok(datas);
+    }
+
+    @WebLog(description = "视频详细信息")
+    @GetMapping("findVideoDetailByBV")
+    public ApiResponse findVideoDetailByBV(String bv) throws Exception {
+        QueryWrapper<BilibiliVideo>queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("bvid", bv);
+        BilibiliVideo data = bilibiliVideoService.getOne(queryWrapper);
+        String video_url = data.getVideoUrl();
+        video_url = MinioUtils.getResUrl("androidvideo", video_url);
+        data.setVideoUrl(video_url);
+        String ownerFace = data.getOwnerFace();
+        ownerFace = MinioUtils.getResUrl("android", ownerFace);
+        data.setOwnerFace(ownerFace);
+        String pic = data.getPic();
+        pic = MinioUtils.getResUrl("androidbrand", pic);
+        data.setPic(pic);
+        String ctime = data.getCtime();
+        ctime = String.valueOf(Long.parseLong(ctime) * 1000);
+        ctime = stampToTime(ctime);
+        data.setCtime(ctime);
+
+        return ApiResponse.ok(data);
+    }
+
+    @WebLog(description = "返回首页banner图片地址")
+    @GetMapping("getBannerImageUrl")
+    public ApiResponse getBannerImageUrl() throws Exception {
+        String imageNames[] = {"banner1.webp","banner2.webp","banner3.webp"};
+        List<String> imageUrls = new ArrayList<>();
+        for (String imageName : imageNames) {
+            String imageUrl = MinioUtils.getResUrl("androidbrand", imageName);
+            imageUrls.add(imageUrl);
+        }
+        return ApiResponse.ok(imageUrls);
     }
 
     /**
@@ -111,6 +159,17 @@ public class BilibiliVideoController {
             return news;
         }
     }
+    public static String stampToTime(String s) throws Exception{
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long lt = new Long(s);
+        //将时间戳转换为时间
+        Date date = new Date(lt);
+        //将时间调整为yyyy-MM-dd HH:mm:ss时间样式
+        res = simpleDateFormat.format(date);
+        return res;
+    }
+
 
 }
 
