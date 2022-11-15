@@ -13,12 +13,18 @@ public class MessagePushController {
     @Autowired
     private MqttPushClient mqttPushClient;
 
-    @GetMapping("testPublishMessage1")
+    @GetMapping("publishMessage")
     public void testPublishMessage() {
         mqttPushClient.publish("android_subscribe","这是一条测试消息");
     }
 
-    @GetMapping("testPublishMessage2")
+    @GetMapping("randomPublishMessage")
+    public void randomPublishMessage() {
+        mqttPushClient.publish("android_subscribe","这是一条测试消息");
+    }
+
+
+    @GetMapping("publishMessage")
     public void testPublishMessage2(String message){
         mqttPushClient.publish("android_publish",message);
     }
