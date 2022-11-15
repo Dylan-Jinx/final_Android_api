@@ -32,7 +32,7 @@ public class ApiResponse implements Serializable {
     }
 
     public static ApiResponse ok(Object data) {
-        return new ApiResponse(20000, "", data);
+        return new ApiResponse(0, "", data);
     }
 
     public static ApiResponse error(String errorMsg) {

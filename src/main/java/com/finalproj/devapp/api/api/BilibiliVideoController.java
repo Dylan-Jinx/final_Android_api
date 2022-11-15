@@ -64,8 +64,29 @@ public class BilibiliVideoController {
     @WebLog(description = "分页")
     @GetMapping("/page")
     public ApiResponse findPage(@RequestParam Integer pageNum,
-    @RequestParam Integer pageSize) {
-        return ApiResponse.ok(bilibiliVideoService.page(new Page<>(pageNum, pageSize)));
+    @RequestParam Integer pageSize) throws Exception {
+
+        Page<BilibiliVideo> pageData = bilibiliVideoService.page(new Page<>(pageNum, pageSize));
+
+        List<BilibiliVideo> result = new ArrayList<>();
+        for (BilibiliVideo data : pageData.getRecords()) {
+            String video_url = data.getVideoUrl();
+            video_url = MinioUtils.getResUrl("androidvideo", video_url);
+            data.setVideoUrl(video_url);
+            String ownerFace = data.getOwnerFace();
+            ownerFace = MinioUtils.getResUrl("android", ownerFace);
+            data.setOwnerFace(ownerFace);
+            String pic = data.getPic();
+            pic = MinioUtils.getResUrl("androidbrand", pic);
+            data.setPic(pic);
+            String ctime = data.getCtime();
+            ctime = String.valueOf(Long.parseLong(ctime) * 1000);
+            ctime = stampToTime(ctime);
+            data.setCtime(ctime);
+            result.add(data);
+        }
+        pageData.setRecords(result);
+        return ApiResponse.ok(pageData);
     }
 
     @WebLog(description = "首页内容")
@@ -86,6 +107,9 @@ public class BilibiliVideoController {
             pic = MinioUtils.getResUrl("androidbrand", pic);
             record.setPic(pic);
 
+            String video_url = record.getVideoUrl();
+            video_url = MinioUtils.getResUrl("androidvideo", video_url);
+            record.setVideoUrl(video_url);
             tempData.add(record);
         }
         Page<BilibiliVideo> resultDatas = new Page<>(pageNum, tempData.size());
@@ -95,11 +119,28 @@ public class BilibiliVideoController {
 
     @WebLog(description = "视频名称模糊查找")
     @GetMapping("findInfoByLikeName")
-    public ApiResponse findInfoByLikeName(String findInfoByLikeName){
+    public ApiResponse findInfoByLikeName(String findInfoByLikeName) throws Exception {
         QueryWrapper<BilibiliVideo> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("title", findInfoByLikeName);
         List<BilibiliVideo> datas = bilibiliVideoService.list(queryWrapper);
-        return ApiResponse.ok(datas);
+        List<BilibiliVideo> result = new ArrayList<>();
+        for (BilibiliVideo data : datas) {
+            String video_url = data.getVideoUrl();
+            video_url = MinioUtils.getResUrl("androidvideo", video_url);
+            data.setVideoUrl(video_url);
+            String ownerFace = data.getOwnerFace();
+            ownerFace = MinioUtils.getResUrl("android", ownerFace);
+            data.setOwnerFace(ownerFace);
+            String pic = data.getPic();
+            pic = MinioUtils.getResUrl("androidbrand", pic);
+            data.setPic(pic);
+            String ctime = data.getCtime();
+            ctime = String.valueOf(Long.parseLong(ctime) * 1000);
+            ctime = stampToTime(ctime);
+            data.setCtime(ctime);
+            result.add(data);
+        }
+        return ApiResponse.ok(result);
     }
 
     @WebLog(description = "视频详细信息")

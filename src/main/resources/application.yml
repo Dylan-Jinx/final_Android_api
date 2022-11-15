@@ -1,7 +1,11 @@
 server:
   port: 8080
 
+
+
 spring:
+  main:
+    allow-circular-references: true
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -22,7 +26,7 @@ spring:
     #    rewriteBatchedStatements=true ?mybatis???????????
     url: jdbc:mysql://localhost/bilibili?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&rewriteBatchedStatements=true
     username: root
-    password: 123456
+    password: 12345678
 # mybatis-plus??
 mybatis-plus:
   # xml??????????????????? Mapper ???? XML ?????
@@ -42,12 +46,13 @@ mybatis-plus:
     cache-enabled: true
 
 Minio:
-  host: "192.168.123.116"
+  host: "192.168.123.52"
+#  host: "192.168.43.175"
   port: "9000"
-  access_key: "admin"
-  secret_key: "admin123456"
+  access_key: "AKIAIOSFODNN7EXAMPLE"
+  secret_key: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 
 Mysql:
   url: jdbc:mysql://localhost/bilibili?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&rewriteBatchedStatements=true
   mysql_user: "root"
-  mysql_password: "123456"
+  mysql_password: "12345678"
